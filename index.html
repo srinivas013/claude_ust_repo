@@ -72,31 +72,28 @@
     line-height: 1.45;
     font-size: 15px;
   }
-  header {
-    background: var(--primary);
-    color: #fff;
-    padding: 16px;
-  }
-  header .hdr-inner {
+  header { background: var(--primary); color: #fff; padding: 16px; }
+  .hdr-inner {
     max-width: 1200px; margin: 0 auto;
     display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
   }
   header h1 { font-size: 20px; margin: 0; }
+  header .sub { font-size: 12px; opacity: .85; }
   header .actions { display: flex; flex-wrap: wrap; gap: 8px; }
-  nav.tabs {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 5;
-  }
-  nav.tabs .inner {
-    max-width: 1200px; margin: 0 auto;
-    display: flex; overflow-x: auto;
-  }
+  nav.tabs { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; }
+  nav.tabs .inner { max-width: 1200px; margin: 0 auto; display: flex; overflow-x: auto; }
   nav.tabs button {
     background: none; border: 0; padding: 14px 16px; cursor: pointer;
     color: var(--muted); font-weight: 600; border-bottom: 3px solid transparent; white-space: nowrap;
   }
   nav.tabs button[aria-selected="true"] { color: var(--primary); border-bottom-color: var(--primary); }
+
+  #banner {
+    background: var(--warn-soft); color: var(--text); border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+  }
+  #banner[hidden] { display: none; }
+  #banner .inner { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 
   main { max-width: 1200px; margin: 0 auto; padding: 16px; }
   section[hidden] { display: none; }
@@ -106,8 +103,12 @@
   .small { font-size: 13px; }
   .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .spacer { flex: 1; }
+  .good { color: var(--done); }
+  .bad { color: var(--bad); }
+  .warn { color: var(--warn); }
 
   .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .split { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
   .card {
     background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 16px; margin-bottom: 12px;
@@ -115,15 +116,11 @@
   .stat .label { color: var(--muted); font-size: 13px; }
   .stat .value { font-size: 22px; font-weight: 700; margin-top: 2px; }
   .stat .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .good { color: var(--done); }
-  .bad { color: var(--bad); }
-  .warn { color: var(--warn); }
 
   .bar { height: 10px; background: var(--bar-track); border-radius: 999px; overflow: hidden; display: flex; }
   .bar > span { display: block; height: 100%; }
-  .bar .s-done { background: var(--done); }
-  .bar .s-plan { background: var(--plan); }
-  .bar .s-cat { background: var(--primary); }
+  .s-done { background: var(--done); }
+  .s-plan { background: var(--plan); }
 
   table { width: 100%; border-collapse: collapse; }
   th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -131,12 +128,11 @@
   td.num, th.num { text-align: right; white-space: nowrap; }
   .table-wrap { overflow-x: auto; }
 
-  .badge {
-    display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap;
-  }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
   .b-done { background: var(--done-soft); color: var(--done); }
   .b-plan { background: var(--plan-soft); color: var(--plan); }
   .b-over { background: var(--bad-soft); color: var(--bad); }
+  .b-warn { background: var(--warn-soft); color: var(--warn); }
 
   button, .btn {
     font: inherit; cursor: pointer; border-radius: 8px; padding: 7px 12px;
@@ -152,6 +148,7 @@
     font: inherit; width: 100%; padding: 8px 10px; border-radius: 8px;
     border: 1px solid var(--border); background: var(--bg); color: var(--text);
   }
+  input:disabled, select:disabled { opacity: .5; }
   label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
   label > input, label > select, label > textarea { margin-top: 4px; }
   .filters { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-bottom: 12px; }
@@ -169,12 +166,14 @@
   @media (max-width: 520px) { .two { grid-template-columns: 1fr; } }
 
   .empty { text-align: center; padding: 28px 12px; color: var(--muted); }
-  .list-item { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .list-item { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .list-item:last-child { border-bottom: 0; }
-  .list-item .grow { flex: 1; min-width: 0; }
+  .list-item .grow { flex: 1; min-width: 150px; }
   .amt-in { color: var(--done); font-weight: 600; }
   .amt-out { color: var(--bad); font-weight: 600; }
   .person-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .status-line { font-size: 13px; padding: 10px 12px; border-radius: 8px; background: var(--primary-soft); color: var(--text); margin-bottom: 12px; }
+  .status-line.err { background: var(--bad-soft); }
   @media (max-width: 640px) {
     main { padding: 12px; }
     table.hide-sm th:nth-child(n+4), table.hide-sm td:nth-child(n+4) { display: none; }
@@ -185,16 +184,21 @@
 
 <header>
   <div class="hdr-inner">
-    <h1>Expense Planner</h1>
+    <div>
+      <h1>Expense Planner</h1>
+      <div class="sub" id="headerSub">Track payments, cash and online balances per person</div>
+    </div>
     <div class="actions">
-      <button id="btnExportJson" title="Download all data as a JSON backup">Export backup</button>
-      <button id="btnImport" title="Restore from a JSON backup">Import backup</button>
-      <button id="btnExportCsv" title="Download expenses as CSV for Excel">Export CSV</button>
-      <button id="btnClear" title="Delete all data in this browser">Clear all</button>
-      <input type="file" id="fileImport" accept="application/json,.json" hidden>
+      <button data-act="export-json" title="Download all data as a JSON file">Export JSON</button>
+      <button data-act="export-exp-csv" title="Download expenses as CSV (Excel)">Expenses CSV</button>
+      <button data-act="export-fund-csv" title="Download money added / removed / paid as CSV">Money CSV</button>
+      <button data-act="import-json" title="Restore from a JSON file">Import JSON</button>
+      <input type="file" id="fileImport" accept=".json,application/json" hidden>
     </div>
   </div>
 </header>
+
+<div id="banner" hidden><div class="inner" id="bannerInner"></div></div>
 
 <nav class="tabs">
   <div class="inner">
@@ -202,6 +206,7 @@
     <button data-tab="expenses" aria-selected="false">Expenses</button>
     <button data-tab="events" aria-selected="false">Events</button>
     <button data-tab="money" aria-selected="false">People &amp; Money</button>
+    <button data-tab="backup" aria-selected="false">Backup</button>
   </div>
 </nav>
 
@@ -211,26 +216,22 @@
   <section id="tab-overview">
     <div class="grid" id="statCards"></div>
 
-    <h2>Cash flow check</h2>
-    <div class="card" id="cashCheck"></div>
-
-    <div class="grid" style="grid-template-columns: 1fr;">
-      <div>
-        <h2>Events</h2>
-        <div class="card" id="eventProgress"></div>
-      </div>
-    </div>
-
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
-      <div>
-        <h2>By category</h2>
-        <div class="card" id="categoryBreakdown"></div>
-      </div>
+    <div class="split">
       <div>
         <h2>Money in hand by person</h2>
-        <div class="card" id="personBalances"></div>
+        <div class="card" style="padding:0;"><div class="table-wrap" id="personMoney"></div></div>
+      </div>
+      <div>
+        <h2>Spending by payment mode</h2>
+        <div class="card" id="modeSpend"></div>
       </div>
     </div>
+
+    <h2>Events</h2>
+    <div class="card" id="eventProgress"></div>
+
+    <h2>By category</h2>
+    <div class="card" id="categoryBreakdown"></div>
   </section>
 
   <!-- EXPENSES -->
@@ -249,6 +250,9 @@
           <option value="completed">Completed</option>
         </select>
       </label>
+      <label>Paid by
+        <select id="fPerson"></select>
+      </label>
       <label>Event
         <select id="fEvent"></select>
       </label>
@@ -260,9 +264,7 @@
       </label>
     </div>
     <div class="card" style="padding:0;">
-      <div class="table-wrap">
-        <table class="hide-sm" id="expTable"></table>
-      </div>
+      <div class="table-wrap"><table class="hide-sm" id="expTable"></table></div>
     </div>
     <div class="card" id="expTotals"></div>
   </section>
@@ -280,14 +282,61 @@
   <!-- PEOPLE & MONEY -->
   <section id="tab-money" hidden>
     <div class="row" style="margin-bottom:12px;">
-      <h2 style="margin:0;">People &amp; accounts</h2>
+      <h2 style="margin:0;">People &amp; money</h2>
       <span class="spacer"></span>
       <button class="primary" data-act="add-person">+ Add person</button>
     </div>
+    <p class="small muted" style="margin-top:-4px;">
+      Each person has three balances: <b>Bank transfer</b> and <b>PhonePe / Wallet</b> (online) and <b>Cash</b> (offline).
+      Use <b>+ Add</b> / <b>− Remove</b> to change them. Completed expenses reduce the balance of the person and mode that paid.
+    </p>
     <div id="personList"></div>
 
-    <h2>Recent money movements</h2>
+    <div class="row" style="margin:16px 0 8px;">
+      <h2 style="margin:0;">Money movements</h2>
+      <span class="spacer"></span>
+      <label style="margin:0;min-width:200px;">Person
+        <select id="ledgerPerson"></select>
+      </label>
+    </div>
     <div class="card" id="ledger"></div>
+  </section>
+
+  <!-- BACKUP -->
+  <section id="tab-backup" hidden>
+    <h2>Backup file</h2>
+    <div class="card">
+      <p style="margin-top:0;">
+        Choose a file on your computer once. Every change is then saved to that file automatically, and the page
+        loads it again the next time you open this page.
+      </p>
+      <div class="row" style="margin-bottom:12px;">
+        <button class="primary" data-act="link-new">Choose where to save backup</button>
+        <button data-act="link-open">Open existing backup file</button>
+        <button data-act="save-now">Save now</button>
+      </div>
+      <div class="status-line" id="backupStatus">Checking backup file…</div>
+      <p class="small muted">
+        Browser security requires one click to re-allow access to the file each time you open this page.
+        This works in Chrome and Edge. In other browsers, use Export JSON / Import JSON.
+      </p>
+    </div>
+
+    <h2>Export</h2>
+    <div class="card">
+      <div class="row">
+        <button data-act="export-json">Full backup (.json)</button>
+        <button data-act="export-exp-csv">Expenses (.csv, opens in Excel)</button>
+        <button data-act="export-fund-csv">Money movements (.csv)</button>
+        <button data-act="import-json">Import backup (.json)</button>
+      </div>
+    </div>
+
+    <h2>Danger zone</h2>
+    <div class="card">
+      <p style="margin-top:0;" class="small">Deletes every person, event, expense and money movement. If a backup file is linked, it is emptied too.</p>
+      <button class="danger" data-act="clear-all">Clear all data</button>
+    </div>
   </section>
 
 </main>
@@ -313,19 +362,25 @@
     </div>
     <div class="two">
       <label>Category
-        <select name="category" id="expCategory" required></select>
+        <select name="category" required></select>
       </label>
       <label>Event
-        <select name="eventId" id="expEvent"></select>
+        <select name="eventId"></select>
       </label>
     </div>
     <div class="two">
-      <label>Date <span class="small" id="expDateHint">(due or paid date)</span>
+      <label>Paid by (person)
+        <select name="personId"></select>
+      </label>
+      <label>Payment mode
+        <select name="mode"></select>
+      </label>
+    </div>
+    <div class="two">
+      <label><span id="expDateHint">(due date)</span>
         <input name="date" type="date">
       </label>
-      <label>Paid from
-        <select name="accountId" id="expAccount"></select>
-      </label>
+      <div></div>
     </div>
     <label>Notes
       <textarea name="notes" rows="2" maxlength="500"></textarea>
@@ -375,44 +430,13 @@
   </form>
 </dialog>
 
-<!-- ACCOUNT DIALOG -->
-<dialog id="dlgAccount">
-  <form id="formAccount">
-    <h2 id="accountDlgTitle">Add account</h2>
-    <input type="hidden" name="id">
-    <label>Owner
-      <select name="personId" id="accPerson" required></select>
-    </label>
-    <div class="two">
-      <label>Account name
-        <input name="name" required maxlength="60" placeholder="e.g. SBI Savings">
-      </label>
-      <label>Type
-        <select name="type">
-          <option>Bank</option>
-          <option>Cash</option>
-          <option>Wallet / UPI</option>
-          <option>Fixed deposit</option>
-          <option>Other</option>
-        </select>
-      </label>
-    </div>
-    <label>Opening balance
-      <input name="opening" type="number" step="0.01" value="0" required>
-    </label>
-    <p class="small muted" style="margin-top:-4px;">Current balance = opening balance + deposits − completed payments from this account.</p>
-    <div class="buttons">
-      <button type="button" data-close>Cancel</button>
-      <button type="submit" class="primary">Save</button>
-    </div>
-  </form>
-</dialog>
-
-<!-- FUNDS DIALOG -->
+<!-- ADD / REMOVE MONEY DIALOG -->
 <dialog id="dlgFunds">
   <form id="formFunds">
     <h2 id="fundsTitle">Money</h2>
-    <input type="hidden" name="accountId">
+    <p class="small muted" id="fundsInfo" style="margin-top:-6px;"></p>
+    <input type="hidden" name="personId">
+    <input type="hidden" name="mode">
     <input type="hidden" name="type">
     <div class="two">
       <label>Amount
@@ -423,7 +447,7 @@
       </label>
     </div>
     <label>Note
-      <input name="note" maxlength="120" placeholder="e.g. Monthly savings, cash withdrawn">
+      <input name="note" maxlength="120" placeholder="e.g. Salary, ATM withdrawal, paid to cook">
     </label>
     <div class="buttons">
       <button type="button" data-close>Cancel</button>
@@ -437,30 +461,36 @@
   'use strict';
 
   // ---------- Config ----------
-  const KEY = 'expensePlanner.v1';
+  const KEY = 'expensePlanner.v2';
   const LOCALE = 'en-IN';
   const CURRENCY = 'INR';
+  const MODES = {
+    bank:   { label: 'Bank transfer',   online: true },
+    phonepe:{ label: 'PhonePe / Wallet', online: true },
+    cash:   { label: 'Cash',            online: false }
+  };
+  const MODE_KEYS = Object.keys(MODES);
   const CATEGORIES = [
-    'Venue & Catering',
-    'Clothing & Jewellery',
-    'Decor & Flowers',
-    'Photography & Video',
-    'Invitations & Stationery',
-    'Travel & Stay',
-    'Gifts & Ceremonies',
-    'Beauty & Grooming',
-    'Transport',
-    'Music & Entertainment',
-    'Miscellaneous'
+    'Venue & Catering', 'Clothing & Jewellery', 'Decor & Flowers', 'Photography & Video',
+    'Invitations & Stationery', 'Travel & Stay', 'Gifts & Ceremonies', 'Beauty & Grooming',
+    'Transport', 'Music & Entertainment', 'Miscellaneous'
   ];
+  const FS_OK = typeof window.showSaveFilePicker === 'function' && typeof window.showOpenFilePicker === 'function';
+  const JSON_TYPES = [{ description: 'Expense Planner backup', accept: { 'application/json': ['.json'] } }];
 
   // ---------- State ----------
-  const blank = () => ({ people: [], accounts: [], events: [], expenses: [], funds: [] });
+  const blank = () => ({ people: [], events: [], expenses: [], funds: [] });
+  const normalize = obj => {
+    const s = blank();
+    for (const k of Object.keys(s)) if (Array.isArray(obj[k])) s[k] = obj[k];
+    return s;
+  };
+  const isValidBackup = obj => obj && ['people', 'events', 'expenses', 'funds'].every(k => Array.isArray(obj[k]));
 
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) return Object.assign(blank(), JSON.parse(raw));
+      if (raw) return normalize(JSON.parse(raw));
     } catch (err) {
       console.warn('Could not read saved data', err);
     }
@@ -468,14 +498,6 @@
   }
 
   let state = load();
-
-  function save() {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(state));
-    } catch (err) {
-      alert('Could not save in this browser: ' + err.message + '\nUse "Export backup" to keep a copy.');
-    }
-  }
 
   // ---------- Helpers ----------
   const $ = s => document.querySelector(s);
@@ -487,45 +509,50 @@
   const pct = (part, whole) => whole > 0 ? Math.min(100, (part / whole) * 100) : 0;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmtDate = d => d ? new Date(d + 'T00:00:00').toLocaleDateString(LOCALE, { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+  const cls = n => n < 0 ? 'bad' : '';
 
   const isDone = e => e.status === 'completed';
   const isPlanned = e => e.status === 'planned';
   const isOverdue = e => isPlanned(e) && e.date && e.date < today();
   const eventName = id => (state.events.find(x => x.id === id) || {}).name || '—';
-  const accountById = id => state.accounts.find(a => a.id === id);
   const personById = id => state.people.find(p => p.id === id);
-  const accountLabel = a => {
-    if (!a) return '—';
-    const p = personById(a.personId);
-    return `${p ? p.name : '?'} · ${a.name}`;
-  };
+  const personName = id => (personById(id) || {}).name || '—';
+  const modeLabel = m => (MODES[m] || {}).label || '—';
+  const modeKind = m => MODES[m] && MODES[m].online ? 'Online' : 'Offline';
 
-  function accountBalance(a) {
-    const deposits = sum(state.funds.filter(f => f.accountId === a.id)
-      .map(f => f.type === 'deposit' ? f.amount : -f.amount));
-    const paid = sum(state.expenses.filter(e => isDone(e) && e.accountId === a.id).map(e => e.amount));
-    return round2((a.opening || 0) + deposits - paid);
+  // Balance of one person in one payment mode:
+  // money added − money removed − completed payments made from that mode
+  function balance(personId, mode) {
+    const f = state.funds.filter(x => x.personId === personId && x.mode === mode);
+    const added = sum(f.filter(x => x.type === 'add').map(x => x.amount));
+    const removed = sum(f.filter(x => x.type === 'remove').map(x => x.amount));
+    const paid = sum(state.expenses.filter(e => isDone(e) && e.personId === personId && e.mode === mode).map(e => e.amount));
+    return round2(added - removed - paid);
   }
-  const personBalance = p => sum(state.accounts.filter(a => a.personId === p.id).map(accountBalance));
+  const onlineBal = p => round2(balance(p.id, 'bank') + balance(p.id, 'phonepe'));
+  const offlineBal = p => round2(balance(p.id, 'cash'));
+  const totalBal = p => round2(MODE_KEYS.reduce((a, m) => a + balance(p.id, m), 0));
 
   function totals() {
     const done = state.expenses.filter(isDone);
     const planned = state.expenses.filter(isPlanned);
     const spent = round2(sum(done.map(e => e.amount)));
     const pending = round2(sum(planned.map(e => e.amount)));
-    const cash = round2(sum(state.accounts.map(accountBalance)));
-    const budget = round2(sum(state.events.map(e => e.budget)));
+    const cash = round2(sum(state.people.map(totalBal)));
+    const online = round2(sum(state.people.map(onlineBal)));
+    const offline = round2(sum(state.people.map(offlineBal)));
     return {
-      spent, pending, cash, budget,
+      spent, pending, cash, online, offline,
       committed: round2(spent + pending),
       afterPending: round2(cash - pending),
-      overdue: planned.filter(isOverdue)
+      overdue: planned.filter(isOverdue),
+      budget: round2(sum(state.events.map(e => e.budget)))
     };
   }
 
   // ---------- Selects ----------
-  function fillSelect(el, items, { placeholder = null, value = null } = {}) {
-    const prev = value !== null ? value : el.value;
+  function fillSelect(el, items, { placeholder = null } = {}) {
+    const prev = el.value;
     el.innerHTML = (placeholder !== null ? `<option value="">${esc(placeholder)}</option>` : '') +
       items.map(i => `<option value="${esc(i.value)}">${esc(i.label)}</option>`).join('');
     if ([...el.options].some(o => o.value === prev)) el.value = prev;
@@ -533,16 +560,18 @@
 
   function refreshSelects() {
     const eventItems = state.events.map(e => ({ value: e.id, label: e.name }));
-    const catItems = CATEGORIES.map(c => ({ value: c, label: c }));
-    const accItems = state.accounts.map(a => ({ value: a.id, label: accountLabel(a) }));
     const personItems = state.people.map(p => ({ value: p.id, label: p.name }));
+    const catItems = CATEGORIES.map(c => ({ value: c, label: c }));
+    const modeItems = MODE_KEYS.map(m => ({ value: m, label: `${MODES[m].label} (${modeKind(m).toLowerCase()})` }));
 
-    fillSelect($('#fEvent'), [{ value: 'none', label: 'No event' }, ...eventItems], { placeholder: 'All events', value: $('#fEvent').value });
+    fillSelect($('#fPerson'), personItems, { placeholder: 'All people' });
+    fillSelect($('#fEvent'), [{ value: 'none', label: 'No event' }, ...eventItems], { placeholder: 'All events' });
     fillSelect($('#fCat'), catItems, { placeholder: 'All categories' });
-    fillSelect($('#expEvent'), eventItems, { placeholder: 'No event' });
-    fillSelect($('#expCategory'), catItems);
-    fillSelect($('#expAccount'), accItems, { placeholder: 'Not from a tracked account' });
-    fillSelect($('#accPerson'), personItems);
+    fillSelect($('#ledgerPerson'), personItems, { placeholder: 'All people' });
+    fillSelect(document.querySelector('#formExpense [name=eventId]'), eventItems, { placeholder: 'No event' });
+    fillSelect(document.querySelector('#formExpense [name=category]'), catItems);
+    fillSelect(document.querySelector('#formExpense [name=personId]'), personItems, { placeholder: 'Select person' });
+    fillSelect(document.querySelector('#formExpense [name=mode]'), modeItems, { placeholder: 'Select mode' });
   }
 
   // ---------- Render: Overview ----------
@@ -551,27 +580,58 @@
     const short = t.afterPending < 0;
 
     $('#statCards').innerHTML = [
-      stat('Cash in hand', money(t.cash), 'Sum of all account balances', ''),
+      stat('Cash in hand', money(t.cash), 'All people, all modes', ''),
+      stat('Online balance', money(t.online), 'Bank transfer + PhonePe / Wallet', ''),
+      stat('Offline (cash) balance', money(t.offline), 'Cash in hand', ''),
       stat('Spent so far', money(t.spent), 'Completed expenses', 'good'),
       stat('Still to pay', money(t.pending), 'Planned (future) expenses', 'warn'),
-      stat('Total committed', money(t.committed), 'Spent + still to pay', ''),
       stat(short ? 'Shortfall' : 'Left after planned', money(Math.abs(t.afterPending)),
-        short ? 'Need more money for planned costs' : 'Cash remaining after all planned costs',
+        short ? 'Cash in hand is less than planned costs' : 'Cash in hand minus planned costs',
         short ? 'bad' : 'good'),
-      stat('Overdue payments', String(t.overdue.length), 'Planned, but date has passed', t.overdue.length ? 'bad' : '')
+      stat('Overdue payments', String(t.overdue.length), 'Planned, date has passed', t.overdue.length ? 'bad' : '')
     ].join('');
 
-    $('#cashCheck').innerHTML = state.accounts.length === 0
-      ? `<div class="empty">Add people and their accounts under <b>People &amp; Money</b> to see your cash position.</div>`
-      : `<div class="row" style="justify-content:space-between;">
-           <div><div class="muted small">Cash in hand</div><div style="font-size:20px;font-weight:700;">${money(t.cash)}</div></div>
-           <div>−</div>
-           <div><div class="muted small">Planned payments</div><div style="font-size:20px;font-weight:700;">${money(t.pending)}</div></div>
-           <div>=</div>
-           <div><div class="muted small">${short ? 'Shortfall' : 'Surplus'}</div>
-             <div style="font-size:20px;font-weight:700;" class="${short ? 'bad' : 'good'}">${short ? '−' : ''}${money(Math.abs(t.afterPending))}</div></div>
-         </div>
-         <p class="small muted" style="margin:10px 0 0;">Planned payments are compared against money currently in hand. Add deposits (income, savings) to see the real gap.</p>`;
+    $('#personMoney').innerHTML = state.people.length === 0
+      ? `<div class="empty">Add people under <b>People &amp; money</b> and give them money to see balances here.</div>`
+      : `<table>
+          <tr><th>Person</th><th class="num">Bank</th><th class="num">PhonePe / Wallet</th><th class="num">Cash</th><th class="num">Online</th><th class="num">Total</th></tr>
+          ${state.people.map(p => `
+            <tr>
+              <td><b>${esc(p.name)}</b></td>
+              <td class="num ${cls(balance(p.id, 'bank'))}">${money(balance(p.id, 'bank'))}</td>
+              <td class="num ${cls(balance(p.id, 'phonepe'))}">${money(balance(p.id, 'phonepe'))}</td>
+              <td class="num ${cls(balance(p.id, 'cash'))}">${money(balance(p.id, 'cash'))}</td>
+              <td class="num ${cls(onlineBal(p))}">${money(onlineBal(p))}</td>
+              <td class="num ${cls(totalBal(p))}"><b>${money(totalBal(p))}</b></td>
+            </tr>`).join('')}
+          <tr>
+            <td><b>Total</b></td>
+            <td class="num">${money(sum(state.people.map(p => balance(p.id, 'bank'))))}</td>
+            <td class="num">${money(sum(state.people.map(p => balance(p.id, 'phonepe'))))}</td>
+            <td class="num">${money(t.offline)}</td>
+            <td class="num">${money(t.online)}</td>
+            <td class="num"><b>${money(t.cash)}</b></td>
+          </tr>
+        </table>`;
+
+    const done = state.expenses.filter(isDone);
+    const modeRows = MODE_KEYS.map(m => {
+      const amt = round2(sum(done.filter(e => e.mode === m).map(e => e.amount)));
+      return { m, amt };
+    });
+    const spentTotal = round2(sum(modeRows.map(r => r.amt)));
+    const unassigned = round2(sum(done.filter(e => !e.mode).map(e => e.amount)));
+    $('#modeSpend').innerHTML = `<table>
+      <tr><th>Mode</th><th>Type</th><th class="num">Spent</th><th class="num">Share</th></tr>
+      ${modeRows.map(r => `<tr>
+          <td>${esc(modeLabel(r.m))}</td>
+          <td><span class="badge ${MODES[r.m].online ? 'b-plan' : 'b-done'}">${modeKind(r.m)}</span></td>
+          <td class="num"><b>${money(r.amt)}</b></td>
+          <td class="num">${Math.round(pct(r.amt, spentTotal))}%</td></tr>`).join('')}
+      <tr><td><b>Total spent</b></td><td></td><td class="num"><b>${money(spentTotal)}</b></td><td></td></tr>
+      ${unassigned ? `<tr><td class="muted">Mode not recorded</td><td></td><td class="num">${money(unassigned)}</td><td></td></tr>` : ''}
+    </table>
+    <div class="small muted" style="margin-top:8px;">Online spent: ${money(sum(modeRows.filter(r => MODES[r.m].online).map(r => r.amt)))} · Offline spent: ${money(modeRows.filter(r => !MODES[r.m].online).reduce((a, r) => a + r.amt, 0))}</div>`;
 
     $('#eventProgress').innerHTML = state.events.length === 0
       ? `<div class="empty">No events yet. Create one, e.g. "Marriage", under <b>Events</b>.</div>`
@@ -581,8 +641,6 @@
           const pend = round2(sum(exp.filter(isPlanned).map(e => e.amount)));
           const budget = ev.budget || 0;
           const remaining = round2(budget - spent - pend);
-          const sp = pct(spent, budget);
-          const pp = pct(pend, budget);
           return `
             <div style="margin-bottom:16px;">
               <div class="row" style="justify-content:space-between;">
@@ -590,8 +648,8 @@
                 <span class="small muted">${ev.date ? fmtDate(ev.date) : 'No date'}</span>
               </div>
               <div class="bar" style="margin:6px 0;">
-                <span class="s-done" style="width:${sp}%"></span>
-                <span class="s-plan" style="width:${pp}%"></span>
+                <span class="s-done" style="width:${pct(spent, budget)}%"></span>
+                <span class="s-plan" style="width:${pct(pend, budget)}%"></span>
               </div>
               <div class="small" style="display:flex;flex-wrap:wrap;gap:4px 14px;">
                 <span><span class="good">●</span> Spent ${money(spent)}</span>
@@ -600,17 +658,12 @@
                 ${budget ? `<span class="${remaining < 0 ? 'bad' : 'good'}">${remaining < 0 ? 'Over by ' : 'Remaining '}${money(Math.abs(remaining))}</span>` : ''}
               </div>
             </div>`;
-        }).join('') + unassignedRow();
+        }).join('') + unassignedEventsNote();
 
     const cats = CATEGORIES.map(c => {
       const list = state.expenses.filter(e => e.category === c);
-      return {
-        name: c,
-        done: round2(sum(list.filter(isDone).map(e => e.amount))),
-        plan: round2(sum(list.filter(isPlanned).map(e => e.amount)))
-      };
-    }).filter(c => c.done + c.plan > 0)
-      .sort((a, b) => (b.done + b.plan) - (a.done + a.plan));
+      return { name: c, done: round2(sum(list.filter(isDone).map(e => e.amount))), plan: round2(sum(list.filter(isPlanned).map(e => e.amount))) };
+    }).filter(c => c.done + c.plan > 0).sort((a, b) => (b.done + b.plan) - (a.done + a.plan));
     const grand = sum(cats.map(c => c.done + c.plan));
 
     $('#categoryBreakdown').innerHTML = cats.length === 0
@@ -631,20 +684,9 @@
             </tr>`).join('')}
           <tr><td><b>Total</b></td><td class="num good">${money(t.spent)}</td><td class="num" style="color:var(--plan)">${money(t.pending)}</td><td class="num"><b>${money(t.committed)}</b></td></tr>
         </table></div>`;
-
-    $('#personBalances').innerHTML = state.people.length === 0
-      ? `<div class="empty">No people added yet.</div>`
-      : state.people.map(p => `
-          <div class="list-item">
-            <div class="grow">
-              <b>${esc(p.name)}</b>
-              <div class="small muted">${state.accounts.filter(a => a.personId === p.id).map(a => `${esc(a.name)}: ${money(accountBalance(a))}`).join(' · ') || 'No accounts'}</div>
-            </div>
-            <div style="font-weight:700;">${money(personBalance(p))}</div>
-          </div>`).join('');
   }
 
-  function unassignedRow() {
+  function unassignedEventsNote() {
     const list = state.expenses.filter(e => !e.eventId);
     if (!list.length) return '';
     const spent = round2(sum(list.filter(isDone).map(e => e.amount)));
@@ -653,21 +695,23 @@
       Expenses without an event: spent ${money(spent)}, planned ${money(pend)}</div>`;
   }
 
-  function stat(label, value, hint, cls) {
+  function stat(label, value, hint, c) {
     return `<div class="card stat" style="margin:0;">
       <div class="label">${esc(label)}</div>
-      <div class="value ${cls}">${esc(value)}</div>
+      <div class="value ${c}">${esc(value)}</div>
       <div class="hint">${esc(hint)}</div></div>`;
   }
 
   // ---------- Render: Expenses ----------
   function filteredExpenses() {
+    const person = $('#fPerson').value;
     const ev = $('#fEvent').value;
     const st = $('#fStatus').value;
     const cat = $('#fCat').value;
     const q = $('#fSearch').value.trim().toLowerCase();
     return state.expenses
       .filter(e =>
+        (!person || e.personId === person) &&
         (!ev || (ev === 'none' ? !e.eventId : e.eventId === ev)) &&
         (!cat || e.category === cat) &&
         (st === 'all' || (st === 'overdue' ? isOverdue(e) : e.status === st)) &&
@@ -687,7 +731,7 @@
       ? `<tr><td><div class="empty">${state.expenses.length ? 'No expenses match these filters.' : 'No expenses yet. Click “+ Add expense”.'}</div></td></tr>`
       : `<thead><tr>
             <th>Date</th><th>Expense</th><th>Event</th><th>Category</th>
-            <th class="num">Amount</th><th>Status</th><th>Paid from</th><th></th>
+            <th class="num">Amount</th><th>Status</th><th>Paid by</th><th></th>
           </tr></thead><tbody>
           ${list.map(e => `
             <tr>
@@ -697,7 +741,9 @@
               <td>${esc(e.category)}</td>
               <td class="num"><b>${money(e.amount)}</b></td>
               <td>${statusBadge(e)}</td>
-              <td class="small">${isDone(e) ? esc(accountLabel(accountById(e.accountId))) : '<span class="muted">—</span>'}</td>
+              <td class="small">${isDone(e)
+                ? `${esc(personName(e.personId))}<div class="muted">${esc(modeLabel(e.mode))} · ${modeKind(e.mode)}</div>`
+                : '<span class="muted">—</span>'}</td>
               <td style="white-space:nowrap;">
                 ${isDone(e) ? '' : `<button class="link" data-act="done-exp" data-id="${e.id}">Mark done</button>`}
                 <button class="link" data-act="edit-exp" data-id="${e.id}">Edit</button>
@@ -719,7 +765,7 @@
   // ---------- Render: Events ----------
   function renderEvents() {
     $('#eventList').innerHTML = state.events.length === 0
-      ? `<div class="card empty">No events yet. Add one (for example "Marriage", "Housewarming") and then attach expenses to it.</div>`
+      ? `<div class="card empty">No events yet. Add one (for example "Marriage") and then attach expenses to it.</div>`
       : state.events.map(ev => {
           const exp = state.expenses.filter(e => e.eventId === ev.id);
           const done = round2(sum(exp.filter(isDone).map(e => e.amount)));
@@ -748,61 +794,62 @@
         }).join('');
   }
 
-  // ---------- Render: People & Money ----------
+  // ---------- Render: People & money ----------
   function renderPeople() {
     $('#personList').innerHTML = state.people.length === 0
-      ? `<div class="card empty">Add a person (for example "Ravi" or "Priya"), then add their bank accounts or cash.</div>`
-      : state.people.map(p => {
-          const accs = state.accounts.filter(a => a.personId === p.id);
-          return `<div class="card">
+      ? `<div class="card empty">Add a person (for example "Ravi" or "Priya"), then add their money.</div>`
+      : state.people.map(p => `
+          <div class="card">
             <div class="person-head">
-              <div><h3 style="font-size:17px;">${esc(p.name)}</h3>
-                <div class="small muted">Total in hand: <b class="good">${money(personBalance(p))}</b></div></div>
+              <div>
+                <h3 style="font-size:17px;">${esc(p.name)}</h3>
+                <div class="small muted">Online <b class="${cls(onlineBal(p))}">${money(onlineBal(p))}</b> · Cash <b class="${cls(offlineBal(p))}">${money(offlineBal(p))}</b> · Total <b class="${cls(totalBal(p))}">${money(totalBal(p))}</b></div>
+              </div>
               <div class="row">
-                <button class="link" data-act="add-acc" data-id="${p.id}">+ Account</button>
                 <button class="link" data-act="edit-person" data-id="${p.id}">Rename</button>
                 <button class="link danger" data-act="del-person" data-id="${p.id}">Delete</button>
               </div>
             </div>
-            ${accs.length === 0 ? '<div class="small muted" style="margin-top:8px;">No accounts yet.</div>' :
-              `<div style="margin-top:8px;">${accs.map(a => `
+            <div style="margin-top:8px;">
+              ${MODE_KEYS.map(m => `
                 <div class="list-item">
-                  <div class="grow">
-                    <b>${esc(a.name)}</b> <span class="badge b-plan">${esc(a.type || 'Account')}</span>
-                    <div class="small muted">Opening ${money(a.opening)}</div>
-                  </div>
-                  <div style="font-weight:700;white-space:nowrap;">${money(accountBalance(a))}</div>
+                  <div class="grow"><b>${esc(MODES[m].label)}</b>
+                    <span class="badge ${MODES[m].online ? 'b-plan' : 'b-done'}" style="margin-left:6px;">${modeKind(m)}</span></div>
+                  <div class="${cls(balance(p.id, m))}" style="font-weight:700;white-space:nowrap;">${money(balance(p.id, m))}</div>
                   <div class="row" style="white-space:nowrap;">
-                    <button class="link" data-act="dep" data-id="${a.id}">+ Deposit</button>
-                    <button class="link" data-act="wd" data-id="${a.id}">− Withdraw</button>
-                    <button class="link" data-act="edit-acc" data-id="${a.id}">Edit</button>
-                    <button class="link danger" data-act="del-acc" data-id="${a.id}">Delete</button>
+                    <button class="link" data-act="add-funds" data-id="${p.id}" data-mode="${m}">+ Add</button>
+                    <button class="link danger" data-act="rem-funds" data-id="${p.id}" data-mode="${m}">− Remove</button>
                   </div>
-                </div>`).join('')}</div>`}
-          </div>`;
-        }).join('');
+                </div>`).join('')}
+            </div>
+          </div>`).join('');
+    renderLedger();
+  }
 
-    // Ledger: deposits/withdrawals plus completed expenses paid from an account
+  function renderLedger() {
+    const who = $('#ledgerPerson').value;
     const rows = [
       ...state.funds.map(f => ({
-        id: f.id, kind: 'fund', date: f.date || '', account: f.accountId,
-        label: (f.type === 'deposit' ? 'Deposit' : 'Withdrawal') + (f.note ? ' — ' + f.note : ''),
-        signed: f.type === 'deposit' ? f.amount : -f.amount
+        id: f.id, kind: 'fund', date: f.date || '', personId: f.personId, mode: f.mode,
+        signed: f.type === 'add' ? f.amount : -f.amount,
+        label: (f.type === 'add' ? 'Added' : 'Removed') + (f.note ? ' — ' + f.note : '')
       })),
-      ...state.expenses.filter(e => isDone(e) && e.accountId).map(e => ({
-        id: e.id, kind: 'exp', date: e.date || '', account: e.accountId,
-        label: 'Paid: ' + e.title + (e.eventId ? ' (' + eventName(e.eventId) + ')' : ''),
-        signed: -e.amount
+      ...state.expenses.filter(isDone).filter(e => e.personId).map(e => ({
+        id: e.id, kind: 'exp', date: e.date || '', personId: e.personId, mode: e.mode,
+        signed: -e.amount,
+        label: 'Paid: ' + e.title + (e.eventId ? ' (' + eventName(e.eventId) + ')' : '')
       }))
-    ].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30);
+    ].filter(r => !who || r.personId === who)
+     .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+     .slice(0, 60);
 
     $('#ledger').innerHTML = rows.length === 0
-      ? `<div class="empty">No movements yet.</div>`
+      ? `<div class="empty">No money movements yet.</div>`
       : rows.map(r => `
           <div class="list-item">
             <div class="grow">
               <div>${esc(r.label)}</div>
-              <div class="small muted">${fmtDate(r.date)} · ${esc(accountLabel(accountById(r.account)))}</div>
+              <div class="small muted">${fmtDate(r.date)} · ${esc(personName(r.personId))} · ${esc(modeLabel(r.mode))} (${modeKind(r.mode)})</div>
             </div>
             <div class="${r.signed >= 0 ? 'amt-in' : 'amt-out'}" style="white-space:nowrap;">${r.signed >= 0 ? '+' : '−'}${money(Math.abs(r.signed))}</div>
             ${r.kind === 'fund' ? `<button class="link danger" data-act="del-fund" data-id="${r.id}">Remove</button>` : ''}
@@ -815,6 +862,7 @@
     renderExpenses();
     renderEvents();
     renderPeople();
+    $('#headerSub').textContent = `Cash in hand: ${money(totals().cash)} · Still to pay: ${money(totals().pending)}`;
   }
 
   // ---------- Dialogs ----------
@@ -827,43 +875,79 @@
     }
     dlg.showModal();
   }
-  const closeDialog = el => el.closest('dialog').close();
+
+  function syncExpenseForm() {
+    const f = $('#formExpense').elements;
+    const done = f.status.value === 'completed';
+    f.personId.disabled = !done; f.personId.required = done;
+    f.mode.disabled = !done; f.mode.required = done;
+    $('#expDateHint').textContent = done ? '(paid date)' : '(due date)';
+  }
 
   function openExpense(e, preset = {}) {
-    const isEdit = !!e;
-    const v = isEdit ? { ...e, eventId: e.eventId || '', accountId: e.accountId || '' } : { status: 'planned', date: '', ...preset };
-    $('#expenseTitle').textContent = isEdit ? 'Edit expense' : 'Add expense';
-    $('#expDateHint').textContent = (v.status === 'completed') ? '(paid date)' : '(due date)';
+    const v = e
+      ? { ...e, eventId: e.eventId || '', personId: e.personId || '', mode: e.mode || '' }
+      : { status: 'planned', date: '', ...preset };
+    $('#expenseTitle').textContent = e ? 'Edit expense' : 'Add expense';
     openDialog('dlgExpense', v);
-    $('#formExpense').elements.status.dispatchEvent(new Event('change'));
+    syncExpenseForm();
+  }
+
+  function openFunds(personId, mode, type) {
+    const p = personById(personId);
+    if (!p) return;
+    $('#fundsTitle').textContent = `${type === 'add' ? 'Add money to' : 'Remove money from'} ${p.name} — ${modeLabel(mode)}`;
+    openDialog('dlgFunds', { personId, mode, type, date: today() });
+    $('#fundsInfo').textContent = `Current ${modeLabel(mode)} balance: ${money(balance(personId, mode))}`;
   }
 
   // ---------- Form submit handlers ----------
-  $('#formExpense').elements.status.addEventListener('change', e => {
-    $('#expDateHint').textContent = e.target.value === 'completed' ? '(paid date)' : '(due date)';
-    $('#expAccount').disabled = e.target.value !== 'completed';
-  });
+  $('#formExpense').elements.status.addEventListener('change', syncExpenseForm);
 
   $('#formExpense').addEventListener('submit', e => {
     e.preventDefault();
     const f = e.target.elements;
-    const status = f.status.value;
+    const done = f.status.value === 'completed';
     const data = {
       title: f.title.value.trim(),
       amount: round2(parseFloat(f.amount.value)),
       category: f.category.value,
       eventId: f.eventId.value || null,
-      status,
+      status: f.status.value,
       date: f.date.value || '',
-      accountId: status === 'completed' ? (f.accountId.value || null) : null,
+      personId: done ? (f.personId.value || null) : null,
+      mode: done ? (f.mode.value || null) : null,
       notes: f.notes.value.trim()
     };
-    if (f.id.value) {
-      const idx = state.expenses.findIndex(x => x.id === f.id.value);
-      if (idx >= 0) state.expenses[idx] = { ...state.expenses[idx], ...data };
-    } else {
-      state.expenses.push({ id: uid(), ...data, createdAt: new Date().toISOString() });
+    const prev = f.id.value ? state.expenses.find(x => x.id === f.id.value) : null;
+    if (done && data.personId && data.mode) {
+      // If this expense was already paid from the same person and mode, its old amount is returned first
+      const credit = prev && isDone(prev) && prev.personId === data.personId && prev.mode === data.mode ? prev.amount : 0;
+      const avail = round2(balance(data.personId, data.mode) + credit);
+      if (data.amount > avail && !confirm(`${personName(data.personId)} has only ${money(avail)} in ${modeLabel(data.mode)}. Record this payment anyway? The balance will go negative.`)) return;
     }
+    if (prev) Object.assign(prev, data);
+    else state.expenses.push({ id: uid(), ...data, createdAt: new Date().toISOString() });
+    save();
+    e.target.closest('dialog').close();
+    renderAll();
+  });
+
+  $('#formFunds').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target.elements;
+    const type = f.type.value;
+    const personId = f.personId.value;
+    const mode = f.mode.value;
+    const amount = round2(parseFloat(f.amount.value));
+    if (type === 'remove' && amount > balance(personId, mode) &&
+        !confirm(`${personName(personId)} has only ${money(balance(personId, mode))} in ${modeLabel(mode)}. Remove anyway? The balance will go negative.`)) return;
+    state.funds.push({
+      id: uid(), personId, mode, type, amount,
+      date: f.date.value || today(),
+      note: f.note.value.trim(),
+      createdAt: new Date().toISOString()
+    });
     save();
     e.target.closest('dialog').close();
     renderAll();
@@ -877,12 +961,9 @@
       date: f.date.value || '',
       budget: f.budget.value === '' ? 0 : round2(parseFloat(f.budget.value))
     };
-    if (f.id.value) {
-      const ev = state.events.find(x => x.id === f.id.value);
-      if (ev) Object.assign(ev, data);
-    } else {
-      state.events.push({ id: uid(), ...data });
-    }
+    const ev = f.id.value ? state.events.find(x => x.id === f.id.value) : null;
+    if (ev) Object.assign(ev, data);
+    else state.events.push({ id: uid(), ...data });
     save();
     e.target.closest('dialog').close();
     renderAll();
@@ -891,54 +972,21 @@
   $('#formPerson').addEventListener('submit', e => {
     e.preventDefault();
     const f = e.target.elements;
-    if (f.id.value) {
-      const p = personById(f.id.value);
-      if (p) p.name = f.name.value.trim();
-    } else {
-      state.people.push({ id: uid(), name: f.name.value.trim() });
-    }
-    save();
-    e.target.closest('dialog').close();
-    renderAll();
-  });
-
-  $('#formAccount').addEventListener('submit', e => {
-    e.preventDefault();
-    const f = e.target.elements;
-    const data = {
-      personId: f.personId.value,
-      name: f.name.value.trim(),
-      type: f.type.value,
-      opening: round2(parseFloat(f.opening.value) || 0)
-    };
-    if (f.id.value) {
-      const a = accountById(f.id.value);
-      if (a) Object.assign(a, data);
-    } else {
-      state.accounts.push({ id: uid(), ...data });
-    }
-    save();
-    e.target.closest('dialog').close();
-    renderAll();
-  });
-
-  $('#formFunds').addEventListener('submit', e => {
-    e.preventDefault();
-    const f = e.target.elements;
-    state.funds.push({
-      id: uid(),
-      accountId: f.accountId.value,
-      type: f.type.value,
-      amount: round2(parseFloat(f.amount.value)),
-      date: f.date.value || today(),
-      note: f.note.value.trim()
-    });
+    const p = f.id.value ? personById(f.id.value) : null;
+    if (p) p.name = f.name.value.trim();
+    else state.people.push({ id: uid(), name: f.name.value.trim() });
     save();
     e.target.closest('dialog').close();
     renderAll();
   });
 
   // ---------- Actions (event delegation) ----------
+  function removePeople(ids) {
+    state.funds = state.funds.filter(f => !ids.includes(f.personId));
+    state.expenses.forEach(e => { if (ids.includes(e.personId)) { e.personId = null; e.mode = null; } });
+    state.people = state.people.filter(p => !ids.includes(p.id));
+  }
+
   const actions = {
     'add-exp': () => openExpense(null),
     'add-exp-event': id => openExpense(null, { eventId: id }),
@@ -973,7 +1021,10 @@
       save(); renderAll();
     },
 
-    'add-person': () => { $('#personDlgTitle').textContent = 'Add person'; openDialog('dlgPerson'); },
+    'add-person': () => {
+      $('#personDlgTitle').textContent = 'Add person';
+      openDialog('dlgPerson');
+    },
     'edit-person': id => {
       const p = personById(id);
       if (!p) return;
@@ -982,50 +1033,33 @@
     },
     'del-person': id => {
       const p = personById(id);
-      if (!p || !confirm(`Delete ${p.name} and all their accounts? Expenses paid from those accounts stay, but are no longer linked.`)) return;
-      const accIds = state.accounts.filter(a => a.personId === id).map(a => a.id);
-      removeAccounts(accIds);
-      state.people = state.people.filter(x => x.id !== id);
+      if (!p || !confirm(`Delete ${p.name}? Their money movements are removed. Expenses they paid stay, but are no longer linked to them.`)) return;
+      removePeople([id]);
       save(); renderAll();
     },
 
-    'add-acc': personId => {
-      $('#accountDlgTitle').textContent = 'Add account';
-      openDialog('dlgAccount', { personId, opening: 0 });
-    },
-    'edit-acc': id => {
-      const a = accountById(id);
-      if (!a) return;
-      $('#accountDlgTitle').textContent = 'Edit account';
-      openDialog('dlgAccount', a);
-    },
-    'del-acc': id => {
-      const a = accountById(id);
-      if (!a || !confirm(`Delete account "${a.name}"? Its deposits and withdrawals are removed. Expenses paid from it stay, but are no longer linked.`)) return;
-      removeAccounts([id]);
+    'add-funds': (id, btn) => openFunds(id, btn.dataset.mode, 'add'),
+    'rem-funds': (id, btn) => openFunds(id, btn.dataset.mode, 'remove'),
+    'del-fund': id => {
+      if (!confirm('Remove this money movement? The balance will be recalculated.')) return;
+      state.funds = state.funds.filter(f => f.id !== id);
       save(); renderAll();
     },
-    'dep': id => openFunds(id, 'deposit'),
-    'wd': id => openFunds(id, 'withdraw'),
-    'del-fund': id => {
-      if (!confirm('Remove this movement?')) return;
-      state.funds = state.funds.filter(f => f.id !== id);
+
+    'link-new': () => linkNewFile(),
+    'link-open': () => linkOpenFile(),
+    'reconnect': () => reconnectFile(),
+    'save-now': () => writeBackup(true),
+    'export-json': () => download(`expense-planner-${today()}.json`, JSON.stringify(state, null, 2), 'application/json'),
+    'export-exp-csv': () => download(`expenses-${today()}.csv`, '﻿' + expensesCsv(), 'text/csv'),
+    'export-fund-csv': () => download(`money-movements-${today()}.csv`, '﻿' + movementsCsv(), 'text/csv'),
+    'import-json': () => $('#fileImport').click(),
+    'clear-all': () => {
+      if (!confirm('Delete ALL people, events, expenses and money movements? Export a backup first if unsure.')) return;
+      state = blank();
       save(); renderAll();
     }
   };
-
-  function removeAccounts(ids) {
-    state.funds = state.funds.filter(f => !ids.includes(f.accountId));
-    state.expenses.forEach(e => { if (ids.includes(e.accountId)) e.accountId = null; });
-    state.accounts = state.accounts.filter(a => !ids.includes(a.id));
-  }
-
-  function openFunds(accountId, type) {
-    const a = accountById(accountId);
-    if (!a) return;
-    $('#fundsTitle').textContent = `${type === 'deposit' ? 'Add money to' : 'Take money out of'} ${a.name} (${personById(a.personId)?.name || ''})`;
-    openDialog('dlgFunds', { accountId, type, date: today() });
-  }
 
   document.addEventListener('click', e => {
     const closeBtn = e.target.closest('[data-close]');
@@ -1033,68 +1067,245 @@
     const btn = e.target.closest('[data-act]');
     if (!btn) return;
     const fn = actions[btn.dataset.act];
-    if (fn) fn(btn.dataset.id);
+    if (fn) fn(btn.dataset.id, btn);
   });
 
   // ---------- Tabs & filters ----------
   document.querySelectorAll('nav.tabs button').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', String(b === btn)));
-      document.querySelectorAll('main > section').forEach(s => s.hidden = s.id !== 'tab-' + btn.dataset.tab);
+      document.querySelectorAll('main > section').forEach(s => { s.hidden = s.id !== 'tab-' + btn.dataset.tab; });
       renderAll();
     });
   });
-  ['#fStatus', '#fEvent', '#fCat'].forEach(s => $(s).addEventListener('change', renderExpenses));
+  ['#fStatus', '#fPerson', '#fEvent', '#fCat'].forEach(s => $(s).addEventListener('change', renderExpenses));
   $('#fSearch').addEventListener('input', renderExpenses);
+  $('#ledgerPerson').addEventListener('change', renderLedger);
 
-  // ---------- Backup, import, export ----------
+  // ---------- Save (local copy + linked backup file) ----------
+  function save() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch (err) {
+      alert('Could not save in this browser: ' + err.message + '\nUse "Export JSON" to keep a copy.');
+    }
+    scheduleBackup();
+  }
+
+  // ---------- Downloads / CSV ----------
   function download(name, text, type) {
     const url = URL.createObjectURL(new Blob([text], { type }));
     const a = Object.assign(document.createElement('a'), { href: url, download: name });
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
+  const csvCell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
 
-  $('#btnExportJson').addEventListener('click', () =>
-    download(`expense-planner-${today()}.json`, JSON.stringify(state, null, 2), 'application/json'));
-
-  $('#btnExportCsv').addEventListener('click', () => {
-    const cols = ['Date', 'Title', 'Event', 'Category', 'Amount', 'Status', 'Paid from', 'Notes'];
-    const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  function expensesCsv() {
+    const cols = ['Date', 'Title', 'Event', 'Category', 'Amount', 'Status', 'Paid by', 'Payment mode', 'Payment type', 'Notes'];
     const lines = [cols.join(',')];
     [...state.expenses].sort((a, b) => (a.date || '').localeCompare(b.date || '')).forEach(e => {
-      lines.push([e.date, e.title, eventName(e.eventId), e.category, e.amount,
-        isDone(e) ? 'Completed' : 'Planned', isDone(e) ? accountLabel(accountById(e.accountId)) : '', e.notes]
-        .map(q).join(','));
+      lines.push([
+        e.date, e.title, eventName(e.eventId), e.category, e.amount,
+        isDone(e) ? 'Completed' : 'Planned',
+        isDone(e) ? personName(e.personId) : '',
+        isDone(e) ? modeLabel(e.mode) : '',
+        isDone(e) && e.mode ? modeKind(e.mode) : '',
+        e.notes
+      ].map(csvCell).join(','));
     });
-    download(`expenses-${today()}.csv`, '﻿' + lines.join('\n'), 'text/csv');
-  });
+    return lines.join('\n');
+  }
 
-  $('#btnImport').addEventListener('click', () => $('#fileImport').click());
+  function movementsCsv() {
+    const cols = ['Date', 'Person', 'Payment mode', 'Payment type', 'Movement', 'Amount (+in / -out)', 'Note'];
+    const rows = [
+      ...state.funds.map(f => [f.date, personName(f.personId), modeLabel(f.mode), modeKind(f.mode),
+        f.type === 'add' ? 'Added' : 'Removed', f.type === 'add' ? f.amount : -f.amount, f.note]),
+      ...state.expenses.filter(e => isDone(e) && e.personId).map(e => [e.date, personName(e.personId), modeLabel(e.mode),
+        modeKind(e.mode), 'Paid: ' + e.title, -e.amount, e.notes])
+    ].sort((a, b) => String(a[0]).localeCompare(String(b[0])));
+    return [cols.join(','), ...rows.map(r => r.map(csvCell).join(','))].join('\n');
+  }
+
+  // ---------- Backup file (File System Access API, Chrome / Edge) ----------
+  let fileHandle = null;      // the linked backup file
+  let backupReady = false;    // true only after the file's content is loaded or created, so we never overwrite it with partial data
+  let writeChain = Promise.resolve();
+  const setBackupStatus = (text, isErr = false) => {
+    const el = $('#backupStatus');
+    el.textContent = text;
+    el.classList.toggle('err', isErr);
+  };
+  const showBanner = html => {
+    $('#bannerInner').innerHTML = html;
+    $('#banner').hidden = !html;
+  };
+
+  const idb = {
+    open() {
+      return new Promise((res, rej) => {
+        const r = indexedDB.open('expensePlannerDB', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('kv');
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+      });
+    },
+    async get(k) {
+      const db = await this.open();
+      return new Promise((res, rej) => {
+        const t = db.transaction('kv').objectStore('kv').get(k);
+        t.onsuccess = () => res(t.result);
+        t.onerror = () => rej(t.error);
+      });
+    },
+    async set(k, v) {
+      const db = await this.open();
+      return new Promise((res, rej) => {
+        const t = db.transaction('kv', 'readwrite').objectStore('kv').put(v, k);
+        t.oncomplete = () => res();
+        t.onerror = () => rej(t.error);
+      });
+    }
+  };
+
+  function scheduleBackup() {
+    if (!fileHandle || !backupReady) return;
+    writeChain = writeChain.then(() => writeBackup(false)).catch(err => setBackupStatus('Could not save backup: ' + err.message, true));
+  }
+
+  async function writeBackup(manual) {
+    if (!fileHandle || !backupReady) {
+      if (manual) setBackupStatus('No backup file chosen yet. Click "Choose where to save backup".', true);
+      return;
+    }
+    const perm = await fileHandle.queryPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') {
+      setBackupStatus(`Changes are saved in this browser only. Click "Reconnect" to allow writing to ${fileHandle.name}.`, true);
+      showBanner(`<span>Backup file <b>${esc(fileHandle.name)}</b> needs permission to save.</span>
+                  <button class="primary" data-act="reconnect">Reconnect backup file</button>`);
+      return;
+    }
+    const w = await fileHandle.createWritable();
+    await w.write(JSON.stringify(state, null, 2));
+    await w.close();
+    showBanner('');
+    setBackupStatus(`Saved to ${fileHandle.name} at ${new Date().toLocaleTimeString(LOCALE)}.`);
+  }
+
+  async function loadFromFile() {
+    const file = await fileHandle.getFile();
+    if (file.size === 0) {
+      // New, empty file: start it with the data we have
+      backupReady = true;
+      await writeBackup(true);
+      return;
+    }
+    const obj = JSON.parse(await file.text());
+    if (!isValidBackup(obj)) throw new Error('This file is not an Expense Planner backup.');
+    state = normalize(obj);
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* local copy is optional */ }
+    backupReady = true;
+    renderAll();
+    showBanner('');
+    setBackupStatus(`Loaded from ${fileHandle.name}.`);
+  }
+
+  async function rememberHandle(h) {
+    try {
+      await idb.set('backupHandle', h);
+    } catch (err) {
+      setBackupStatus(`Using ${h.name} for this session. The page could not remember it, so choose it again next time. (${err.message})`, true);
+    }
+  }
+
+  async function linkNewFile() {
+    if (!FS_OK) return setBackupStatus('File backup needs Chrome or Edge. Use Export JSON / Import JSON instead.', true);
+    try {
+      const h = await showSaveFilePicker({ suggestedName: 'expense-planner-backup.json', types: JSON_TYPES });
+      fileHandle = h;
+      await rememberHandle(h);
+      backupReady = true;
+      await writeBackup(true);
+    } catch (err) {
+      if (err.name !== 'AbortError') setBackupStatus('Could not use that file: ' + err.message, true);
+    }
+  }
+
+  async function linkOpenFile() {
+    if (!FS_OK) return setBackupStatus('File backup needs Chrome or Edge. Use Import JSON instead.', true);
+    try {
+      const [h] = await showOpenFilePicker({ types: JSON_TYPES, multiple: false });
+      fileHandle = h;
+      await rememberHandle(h);
+      if ((await h.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+        setBackupStatus('Permission to write this file was not given. It was loaded read-only.', true);
+      }
+      await loadFromFile();
+    } catch (err) {
+      if (err.name !== 'AbortError') setBackupStatus('Could not open that file: ' + err.message, true);
+    }
+  }
+
+  async function reconnectFile() {
+    if (!fileHandle) return;
+    try {
+      const p = await fileHandle.requestPermission({ mode: 'readwrite' });
+      if (p !== 'granted') return setBackupStatus('Permission was not given. Click Reconnect again to allow it.', true);
+      await loadFromFile();
+    } catch (err) {
+      setBackupStatus('Could not reconnect: ' + err.message, true);
+    }
+  }
+
+  async function initBackup() {
+    if (!FS_OK) {
+      setBackupStatus('File backup needs Chrome or Edge. Use Export JSON / Import JSON in this browser.', true);
+      return;
+    }
+    let h = null;
+    try { h = await idb.get('backupHandle'); } catch (err) { /* no remembered file */ }
+    if (!h) {
+      setBackupStatus('No backup file chosen yet. Click "Choose where to save backup" to pick a location.');
+      showBanner(`<span>Choose where to keep your backup file so your data is saved automatically.</span>
+                  <button class="primary" data-act="link-new">Choose backup location</button>`);
+      return;
+    }
+    fileHandle = h;
+    let perm = 'prompt';
+    try { perm = await h.queryPermission({ mode: 'readwrite' }); } catch (err) { /* treat as prompt */ }
+    if (perm === 'granted') {
+      try {
+        await loadFromFile();
+      } catch (err) {
+        setBackupStatus('Could not load ' + h.name + ': ' + err.message, true);
+      }
+    } else {
+      setBackupStatus(`Backup file ${h.name} is linked. Click "Reconnect" to load it.`);
+      showBanner(`<span>Backup file <b>${esc(h.name)}</b> found. Allow access to load your data.</span>
+                  <button class="primary" data-act="reconnect">Reconnect and load</button>`);
+    }
+  }
+
   $('#fileImport').addEventListener('change', async e => {
     const file = e.target.files[0];
     e.target.value = '';
     if (!file) return;
     try {
       const obj = JSON.parse(await file.text());
-      const ok = ['people', 'accounts', 'events', 'expenses', 'funds'].every(k => Array.isArray(obj[k]));
-      if (!ok) throw new Error('This file is not an Expense Planner backup.');
-      if (!confirm('Importing replaces all data currently in this browser. Continue?')) return;
-      state = Object.assign(blank(), obj);
+      if (!isValidBackup(obj)) throw new Error('This file is not an Expense Planner backup.');
+      if (!confirm('Importing replaces all data currently in this page. Continue?')) return;
+      state = normalize(obj);
+      if (fileHandle) backupReady = true;
       save(); renderAll();
     } catch (err) {
       alert('Import failed: ' + err.message);
     }
   });
 
-  $('#btnClear').addEventListener('click', () => {
-    if (!confirm('Delete ALL people, accounts, events and expenses in this browser? Export a backup first if unsure.')) return;
-    state = blank();
-    save(); renderAll();
-  });
-
   // ---------- Init ----------
   renderAll();
+  initBackup();
 })();
 </script>
 </body>
